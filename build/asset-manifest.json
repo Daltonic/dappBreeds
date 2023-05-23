@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/static/css/main.5d2e7955.css",
+    "main.js": "/static/js/main.6f69f582.js",
+    "static/media/coinbase.png": "/static/media/coinbase.c082993d4f388290966e.png",
+    "static/media/heroimage1.jpg": "/static/media/heroimage1.2fd56f67173902792b2b.jpg",
+    "static/media/heroimage3.jpg": "/static/media/heroimage3.962290ae6c9e16f0c0d6.jpg",
+    "static/media/slack.png": "/static/media/slack.f1d88022597337280282.png",
+    "static/media/webflow.png": "/static/media/webflow.61f5a9be00154ab22a8a.png",
+    "static/media/dropbox.png": "/static/media/dropbox.1677829c5710eb0fd4af.png",
+    "index.html": "/index.html",
+    "main.5d2e7955.css.map": "/static/css/main.5d2e7955.css.map",
+    "main.6f69f582.js.map": "/static/js/main.6f69f582.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5d2e7955.css",
+    "static/js/main.6f69f582.js"
+  ]
+}
