@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import CollectionCards from '../components/CollectionCard'
+import CollectionCards from '../components/CollectionCards'
 import { useEffect } from 'react'
 import { generateFakeNfts } from '../utils/faker'
 
