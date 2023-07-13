@@ -1,19 +1,22 @@
 const navdata = [
   {
-    id: 0,
-    title: "Home",
-    path: "/",
-  },
-  {
     id: 1,
-    title: "Collections",
-    path: "/collections",
+    title: 'Home',
+    path: '/',
+    counter: false,
   },
   {
     id: 2,
-    title: "Lab",
-    path: "/lab",
+    title: 'Collections',
+    path: '/collections',
+    counter: false,
   },
-];
+  {
+    id: 3,
+    title: 'Lab',
+    path: '/lab',
+    counter: true,
+  },
+]
 
-export default navdata;
+export default navdata

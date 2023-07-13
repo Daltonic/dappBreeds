@@ -21,7 +21,7 @@ const HeroActions = () => (
         <h2>Gallery</h2>
       </div>
       <div>
-        <p className="flex w-auto  md:w-[450px]">
+        <p className="flex w-auto  md:w-[450px] font-normal">
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever
           since the 1500s, when an unknown printer took a galley of type and
@@ -31,12 +31,18 @@ const HeroActions = () => (
     </div>
 
     <div className="flex gap-5">
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold   py-4 px-6 sm:px-14 rounded-full">
+      <button
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold
+        rounded-full transition-all duration-300 py-4 px-6 sm:px-14"
+      >
         Mint
       </button>
 
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold  py-4 px-6 sm:px-14  rounded-full">
-        Breed
+      <button
+        className="border-2 border-blue-500 hover:bg-blue-500 hover:text-white text-blue-500 font-bold
+        rounded-full transition-all duration-300 py-4 px-6 sm:px-14"
+      >
+        Lab Breed
       </button>
     </div>
 
