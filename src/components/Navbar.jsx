@@ -18,7 +18,7 @@ const MobileMenu = () => (
       ))}
       <li className=" flex items-center  shadow-md cursor-pointer  hover:text-gray-500">
         <Link to="/">
-          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-full">
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-full">
             connect wallet
           </button>
         </Link>
@@ -48,7 +48,7 @@ const Navbar = () => {
         </div>
         <div className="flex justify-start mr-20">
           <Link to="/">
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-full">
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-full">
               connect wallet
             </button>
           </Link>
