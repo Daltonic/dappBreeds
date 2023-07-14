@@ -42,7 +42,8 @@ const HeroActions = () => (
         className="border-2 border-blue-500 hover:bg-blue-500 hover:text-white text-blue-500 font-bold
         rounded-full transition-all duration-300 py-4 px-6 sm:px-14"
       >
-        Lab Breed
+        <span>Lab Breed</span>
+        <span>(2)</span>
       </button>
     </div>
 
