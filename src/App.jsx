@@ -8,7 +8,7 @@ import Lab from './pages/Lab'
 
 const App = () => {
   return (
-    <div>
+    <div className='min-h-screen'>
       <Navbar />
       <div className='h-10' />
       <Routes>

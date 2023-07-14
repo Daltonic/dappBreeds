@@ -16,7 +16,7 @@ const Footer = () => {
           </div>
 
           <div className="w-full md:w-2/6">
-            <h6 className="mb-4 font-semibold  md:justify-start">Collection</h6>
+            <h6 className="mb-4 font-semibold  md:justify-start">NFT</h6>
             <ul className="text-white">
               <li>Breeding</li>
               <li>Minting</li>
