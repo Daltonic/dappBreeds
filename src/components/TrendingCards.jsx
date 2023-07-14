@@ -5,11 +5,25 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import { Pagination, Autoplay } from 'swiper'
 import './TrendingStyles.css'
-import Button from './Button'
 import heroimage1 from '../assets/heroimage1.jpg'
 import { truncate } from '../utils/faker'
+import { addToLab, remFromLab, useGlobalState } from '../store'
 
 const TrendingCards = ({ nfts }) => {
+  const [breeds] = useGlobalState('breeds')
+
+  const onAddToLab = (nft) => {
+    if (breeds.some((breed) => breed.tokenId == nft.tokenId)) return
+    nft.selected = true
+    addToLab(nft)
+  }
+
+  const onRemFromLab = (nft) => {
+    if (!breeds.some((breed) => breed.tokenId == nft.tokenId)) return
+    nft.selected = false
+    remFromLab(nft)
+  }
+
   return (
     <div className="mt-20 w-full flex">
       <Swiper
@@ -57,28 +71,46 @@ const TrendingCards = ({ nfts }) => {
                 className="p-4 flex flex-col items-center gap-2"
               >
                 <div className="flex flex-col gap-2 font-bold text-xl text-blue-500">
-                  <p>
+                  <span>
                     {nft.weapon} & {nft.environment}
-                  </p>
+                  </span>
                 </div>
-                <p>{nft.description}</p>
+                <span>{nft.description}</span>
                 <div className="flex flex-col gap-2 md:flex-row justify-between">
-                  <div>
-                    <p className="text-center">
-                      <span className="font-bold ">
-                        {nft.price}
-                        <span>ETH</span>
-                      </span>
-                      <p className="text-blue-500">
-                        {truncate(nft.owner, 4, 4, 11)}
-                      </p>
-                    </p>
-                  </div>
+                  <p className="flex flex-col text-center">
+                    <span className="font-bold ">
+                      <span>{nft.price}</span>
+                      <span>ETH</span>
+                    </span>
+
+                    <span className="text-blue-500">
+                      {truncate(nft.owner, 4, 4, 11)}
+                    </span>
+                  </p>
                 </div>
               </Link>
 
-              <div className=" py-4 flex  justify-center items-center ">
-                <Button>Breed Now</Button>
+              <div className="flex justify-center items-center py-4">
+                {nft.selected ? (
+                  <button
+                    onClick={() => onRemFromLab(nft)}
+                    className="bg-blue-500 hover:bg-blue-600
+                    text-white font-semibold hover:text-white
+                    py-2 px-4 border-0 rounded-sm transition-all duration-300"
+                  >
+                    Remove
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => onAddToLab(nft)}
+                    className="bg-transparent hover:bg-blue-500
+                    text-white font-semibold hover:text-white
+                    py-2 px-4 border border-white hover:border-blue-500 
+                    rounded-sm transition-all duration-300"
+                  >
+                    Breed Now
+                  </button>
+                )}
               </div>
             </div>
           </SwiperSlide>

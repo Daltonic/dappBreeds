@@ -3,43 +3,52 @@ import { Link } from 'react-router-dom'
 import { AiOutlineClose } from 'react-icons/ai'
 import { BiMenuAltRight } from 'react-icons/bi'
 import { navdata } from '../constants'
+import { useGlobalState } from '../store'
 
-const MobileMenu = () => (
-  <div className="p-6 absolute top-20 right-0 mx-4 my-2 w-auto flex bg-[#1b1b1b] rounded-xl tilt-in-fwd-tr shadow-md z-10 ">
-    <ul className="flex flex-col space-y-8 text-white align-center justify-center items-start align-center">
-      {navdata.map((data) => (
-        <li
-          key={data.id}
-          className=" flex items-center cursor-pointer font-bold hover:text-blue-700"
-        >
-          <Link to={data.path}>
-            <div className="relative">
-              <span>{data.title}</span>
-              {data.counter && (
-                <span className="bg-white p-1 w-1 rounded-full text-black">
-                  2
-                </span>
-              )}
-            </div>
-          </Link>
+const MobileMenu = () => {
+  const [breeds] = useGlobalState('breeds')
+  return (
+    <div className="p-6 fixed top-20 right-0 mx-4 my-2 w-auto flex bg-[#1b1b1b] rounded-xl tilt-in-fwd-tr shadow-md z-10 ">
+      <ul className="flex flex-col space-y-8 text-white align-center justify-center items-start align-center">
+        {navdata.map((data) => (
+          <li
+            key={data.id}
+            className=" flex items-center cursor-pointer font-bold hover:text-blue-700"
+          >
+            <Link to={data.path}>
+              <div className="relative">
+                <span>{data.title}</span>
+                {data.counter && (
+                  <span className="bg-white p-1 w-1 rounded-full text-black">
+                    {breeds.length}
+                  </span>
+                )}
+              </div>
+            </Link>
+          </li>
+        ))}
+        <li className=" flex items-center  shadow-md cursor-pointer  hover:text-gray-500">
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4
+            px-6 rounded-full transition-all duration-300"
+          >
+            Connect Wallet
+          </button>
         </li>
-      ))}
-      <li className=" flex items-center  shadow-md cursor-pointer  hover:text-gray-500">
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4
-        px-6 rounded-full transition-all duration-300"
-        >
-          Connect Wallet
-        </button>
-      </li>
-    </ul>
-  </div>
-)
+      </ul>
+    </div>
+  )
+}
 
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false)
+  const [breeds] = useGlobalState('breeds')
+
   return (
-    <div className="flex justify-between items-center w-full h-[80px] bg-gray-400 mt-4  px-2 lg:px-10">
+    <div
+      className="flex fixed top-0 right-0 left-0 justify-between
+      items-center w-full h-[80px] bg-gray-400 px-2 lg:px-10 z-10"
+    >
       <Link to="/" className="font-bold">
         DappBreed
       </Link>
@@ -53,7 +62,7 @@ const Navbar = () => {
                   <span>{data.title}</span>
                   {data.counter && (
                     <span className="bg-white p-1 w-1 rounded-full text-black">
-                      2
+                      {breeds.length}
                     </span>
                   )}
                 </div>
