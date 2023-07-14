@@ -10,6 +10,7 @@ const App = () => {
   return (
     <div>
       <Navbar />
+      <div className='h-10' />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/nft/:id" element={<Details />} />
