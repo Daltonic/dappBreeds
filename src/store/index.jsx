@@ -35,7 +35,7 @@ export {
   setGlobalState,
   useGlobalState,
   getGlobalState,
-  truncate,
+
   addToLab,
   remFromLab,
   truncate,
