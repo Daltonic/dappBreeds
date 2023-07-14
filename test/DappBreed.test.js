@@ -34,8 +34,8 @@ describe('Contracts', () => {
       result = await contract.getMintedNfts()
       expect(result).to.have.lengthOf(1)
 
-      result = await contract.getTrait(id)
-      expect(result.tokenId).to.be.equal(id)
+      result = await contract.getMintedNft(id)
+      expect(result.id).to.be.equal(id)
     })
 
     it('it should confirm second mint', async () => {
@@ -69,16 +69,16 @@ describe('Contracts', () => {
       result = await contract.getMintedNfts()
       expect(result).to.have.lengthOf(3)
 
-      const fatherTraits = await contract.getTrait(fatherTokenId)
-      const motherTraits = await contract.getTrait(motherTokenId)
-      const childTraits = await contract.getTrait(childTokenId)
+      const fatherTraits = await contract.getMintedNft(fatherTokenId)
+      const motherTraits = await contract.getMintedNft(motherTokenId)
+      const childTraits = await contract.getMintedNft(childTokenId)
 
-      expect(`Inherited Father weapon of #${fatherTraits.weapon}`).to.be.equal(
-        childTraits.weapon
+      expect(`Inherited Father weapon of #${fatherTraits.traits.weapon}`).to.be.equal(
+        childTraits.traits.weapon
       )
       expect(
-        `Inherited Mother environment of #${motherTraits.environment}`
-      ).to.be.equal(childTraits.environment)
+        `Inherited Mother environment of #${motherTraits.traits.environment}`
+      ).to.be.equal(childTraits.traits.environment)
     })
   })
 })

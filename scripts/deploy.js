@@ -2,12 +2,11 @@ const { ethers } = require('hardhat')
 const fs = require('fs')
 
 async function main() {
-  const contract_name = ''
-  const Contract = await ethers.getContractFactory(contract_name)
-  const contract = await Contract.deploy()
   const baseURI =
     'https://ipfs.io/ipfs/QmTWbe9wDns7aqZQNCuWh5PqybGbBF91kngC5Zf8qmCoyg/'
-
+  const maxSupply = 99
+  const Contract = await ethers.getContractFactory('DappBreed')
+  const contract = await Contract.deploy('Dapp Breeds', 'DAB', baseURI, maxSupply)
   await contract.deployed()
 
   const address = JSON.stringify({ address: contract.address }, null, 4)

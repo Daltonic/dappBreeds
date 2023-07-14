@@ -15,10 +15,10 @@ contract DappBreed is ERC721, ERC721URIStorage, Ownable, ReentrancyGuard {
     Counters.Counter private _tokenIdCounter;
 
     struct TraitStruct {
-        uint256 tokenId;
         string name;
         string description;
         string weapon;
+        string image;
         string environment;
         uint256 rarity;
     }
@@ -27,19 +27,18 @@ contract DappBreed is ERC721, ERC721URIStorage, Ownable, ReentrancyGuard {
         uint256 id;
         address owner;
         uint256 mintCost;
-        string baseURI;
         uint256 timestamp;
+        TraitStruct traits;
     }
 
     string public baseURI;
-    uint public maxSupply;
+    uint256 public maxSupply;
     string public baseExtension = ".json";
     string public imageExtension = ".webp";
     uint256 public mintCost = 0.005 ether;
     uint256 public totalBalance;
 
     mapping(uint256 => MintStruct) minted;
-    mapping(uint256 => TraitStruct) traitsOf;
     mapping(uint256 => bool) tokenIdExist;
 
     string[] weapons = [
@@ -68,7 +67,7 @@ contract DappBreed is ERC721, ERC721URIStorage, Ownable, ReentrancyGuard {
         string memory _name,
         string memory _symbol,
         string memory _BaseURI,
-        uint _maxSupply
+        uint256 _maxSupply
     ) ERC721(_name, _symbol) {
         baseURI = _BaseURI;
         maxSupply = _maxSupply;
@@ -91,10 +90,9 @@ contract DappBreed is ERC721, ERC721URIStorage, Ownable, ReentrancyGuard {
         _tokenIdCounter.increment();
         uint256 _tokenId = _tokenIdCounter.current();
 
-        require(_performMinting(_tokenId, msg.sender), "minting unsuccessful");
+        require(_performMinting(_tokenId), "minting unsuccessful");
 
         TraitStruct memory nft;
-        nft.tokenId = _tokenId;
         nft.name = string(
             abi.encodePacked(symbol(), " #", _tokenId.toString())
         );
@@ -102,17 +100,16 @@ contract DappBreed is ERC721, ERC721URIStorage, Ownable, ReentrancyGuard {
         nft.weapon = randomString(weapons);
         nft.environment = randomString(environments);
         nft.rarity = randomInt(rarities);
-
+        nft.image = string(
+            abi.encodePacked(baseURI, _tokenId.toString(), imageExtension)
+        );
+        minted[_tokenId].traits = nft;
         payTo(owner(), msg.value);
-
-        traitsOf[_tokenId] = nft;
-        totalBalance += msg.value;
-        tokenIdExist[_tokenId] = true;
     }
 
     function breedNft(
-        uint _fatherTokenId,
-        uint _motherTokenId
+        uint256 _fatherTokenId,
+        uint256 _motherTokenId
     ) public payable nonReentrant {
         require(tokenIdExist[_fatherTokenId], "Father does not exist");
         require(tokenIdExist[_motherTokenId], "Mother does not exist");
@@ -128,10 +125,9 @@ contract DappBreed is ERC721, ERC721URIStorage, Ownable, ReentrancyGuard {
         _tokenIdCounter.increment();
         uint256 _tokenId = _tokenIdCounter.current();
 
-        require(_performMinting(_tokenId, msg.sender), "minting unsuccessful");
+        require(_performMinting(_tokenId), "minting unsuccessful");
 
         TraitStruct memory nft;
-        nft.tokenId = _tokenId;
         nft.name = string(
             abi.encodePacked(
                 symbol(),
@@ -145,22 +141,22 @@ contract DappBreed is ERC721, ERC721URIStorage, Ownable, ReentrancyGuard {
         nft.weapon = string(
             abi.encodePacked(
                 "Inherited Father weapon of #",
-                traitsOf[_fatherTokenId].weapon
+                minted[_fatherTokenId].traits.weapon
             )
         );
         nft.environment = string(
             abi.encodePacked(
                 "Inherited Mother environment of #",
-                traitsOf[_motherTokenId].environment
+                minted[_motherTokenId].traits.environment
             )
         );
         nft.rarity = randomInt(rarities);
+        nft.image = string(
+            abi.encodePacked(baseURI, _tokenId.toString(), imageExtension)
+        );
 
+        minted[_tokenId].traits = nft;
         payTo(owner(), msg.value);
-
-        traitsOf[_tokenId] = nft;
-        totalBalance += msg.value;
-        tokenIdExist[_tokenId] = true;
     }
 
     function getMintedNfts() public view returns (MintStruct[] memory Minted) {
@@ -178,30 +174,22 @@ contract DappBreed is ERC721, ERC721URIStorage, Ownable, ReentrancyGuard {
         return minted[_tokenId];
     }
 
-    function getTrait(
-        uint256 _tokenId
-    ) public view returns (TraitStruct memory) {
-        return traitsOf[_tokenId];
-    }
-
     function setBaseURI(string memory _newBaseURI) public onlyOwner {
         baseURI = _newBaseURI;
     }
 
-    function _performMinting(
-        uint256 _tokenId,
-        address holder
-    ) internal returns (bool) {
-        _safeMint(holder, _tokenId);
+    function _performMinting(uint256 _tokenId) internal returns (bool) {
+        _safeMint(msg.sender, _tokenId);
         _setTokenURI(_tokenId, tokenURI(_tokenId));
 
-        minted[_tokenId] = MintStruct(
-            _tokenId,
-            holder,
-            msg.value,
-            baseURI,
-            currentTime()
-        );
+        MintStruct memory mint;
+        mint.id = _tokenId;
+        mint.owner = msg.sender;
+        mint.mintCost = msg.value;
+        mint.timestamp = currentTime();
+
+        minted[_tokenId] = mint;
+        tokenIdExist[_tokenId] = true;
 
         return true;
     }
@@ -226,11 +214,8 @@ contract DappBreed is ERC721, ERC721URIStorage, Ownable, ReentrancyGuard {
     function buildMetadata(
         uint256 _tokenId
     ) internal view returns (string memory) {
-        TraitStruct memory traits = traitsOf[_tokenId];
+        TraitStruct memory traits = minted[_tokenId].traits;
         uint256 timestamp = currentTime();
-        string memory imageLink = string(
-            abi.encodePacked(baseURI, _tokenId.toString(), imageExtension)
-        );
 
         bytes memory attributesJson = buildAttributesJson(
             traits.environment,
@@ -255,7 +240,7 @@ contract DappBreed is ERC721, ERC721URIStorage, Ownable, ReentrancyGuard {
                                 '","price":"',
                                 mintCost.toString(),
                                 '","image":"',
-                                imageLink,
+                                traits.image,
                                 '","attributes":',
                                 attributesJson,
                                 "}"
