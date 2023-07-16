@@ -5,7 +5,6 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import { Pagination, Autoplay } from 'swiper'
 import './TrendingStyles.css'
-import heroimage1 from '../assets/heroimage1.jpg'
 import { truncate } from '../utils/faker'
 import { addToLab, remFromLab, useGlobalState } from '../store'
 
@@ -13,13 +12,13 @@ const TrendingCards = ({ nfts }) => {
   const [breeds] = useGlobalState('breeds')
 
   const onAddToLab = (nft) => {
-    if (breeds.some((breed) => breed.tokenId == nft.tokenId)) return
+    if (breeds.some((breed) => breed.id == nft.id)) return
     nft.selected = true
     addToLab(nft)
   }
 
   const onRemFromLab = (nft) => {
-    if (!breeds.some((breed) => breed.tokenId == nft.tokenId)) return
+    if (!breeds.some((breed) => breed.id == nft.id)) return
     nft.selected = false
     remFromLab(nft)
   }
@@ -52,34 +51,35 @@ const TrendingCards = ({ nfts }) => {
           },
         }}
         modules={[Pagination, Autoplay]}
+        centeredSlides={true}
         className="mySwiper"
       >
         {nfts.map((nft, i) => (
           <SwiperSlide key={i}>
             <div className="max-w-xs sm:max-w-sm text-white overflow-hidden border border-blue-500 shadow-lg ">
               <div>
-                <Link to={'/nft/' + nft.tokenId}>
+                <Link to={'/nft/' + nft.id}>
                   <img
                     className="w-full block rounded-sm  border-b border-blue-500 "
-                    src={heroimage1}
+                    src={nft.traits.image}
                     alt="Sunset in the mountains"
                   />
                 </Link>
               </div>
               <Link
-                to={'/nft/' + nft.tokenId}
+                to={'/nft/' + nft.id}
                 className="p-4 flex flex-col items-center gap-2"
               >
                 <div className="flex flex-col gap-2 font-bold text-xl text-blue-500">
                   <span>
-                    {nft.weapon} & {nft.environment}
+                    #{nft.id} {nft.traits.weapon} & {nft.traits.environment}
                   </span>
                 </div>
                 <span>{nft.description}</span>
                 <div className="flex flex-col gap-2 md:flex-row justify-between">
                   <p className="flex flex-col text-center">
-                    <span className="font-bold ">
-                      <span>{nft.price}</span>
+                    <span className="font-bold space-x-1">
+                      <span>{nft.mintCost}</span>
                       <span>ETH</span>
                     </span>
 

@@ -6,6 +6,7 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
   breeds: [],
   father: null,
   mother: null,
+  mintCost: 0,
 })
 
 const truncate = (text, startChars, endChars, maxLength) => {

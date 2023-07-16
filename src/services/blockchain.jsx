@@ -1,4 +1,4 @@
-import { setGlobalState } from '../store'
+import { getGlobalState, setGlobalState } from '../store'
 import abi from '../abis/src/contracts/DappBreed.sol/DappBreed.json'
 import address from '../abis/contractAddress.json'
 import { ethers } from 'ethers'
@@ -69,16 +69,20 @@ const connectWallet = async () => {
   }
 }
 
-const mintNft = async (mintCost) => {
+const mintNft = async () => {
   if (!ethereum) return alert('Please install metamask')
 
   return new Promise(async (resolve, reject) => {
     try {
       const contract = await getEthereumContract()
+      const mintCost = getGlobalState('mintCost')
+
       tx = await contract.mintNft({
         value: toWei(mintCost),
       })
+
       await tx.wait()
+      await getMintedNfts()
       resolve(tx)
     } catch (err) {
       reportError(err)
@@ -87,12 +91,13 @@ const mintNft = async (mintCost) => {
   })
 }
 
-const breedNft = async ({ fatherId, motherId, mintCost }) => {
+const breedNft = async ({ fatherId, motherId }) => {
   if (!ethereum) return alert('please install metamask')
 
   return new Promise(async (resolve, reject) => {
     try {
       const contract = await getEthereumContract()
+      const mintCost = getGlobalState('mintCost')
 
       tx = await contract.breedNft(fatherId, motherId, {
         value: toWei(mintCost),
@@ -113,7 +118,7 @@ const getMintedNfts = async () => {
     const contract = await getEthereumContract()
 
     const nfts = await contract.getMintedNfts()
-    console.log(nfts)
+    setGlobalState('nfts', structuredMint(nfts))
   } catch (err) {
     reportError(err)
   }
@@ -131,9 +136,40 @@ const getMintedNft = async (tokenId) => {
   }
 }
 
+const loadData = async () => {
+  try {
+    if (!ethereum) return console.log('please install metamask')
+    const contract = await getEthereumContract()
+    const mintCost = await contract.mintCost()
+
+    await getMintedNfts()
+    setGlobalState('mintCost', fromWei(mintCost))
+  } catch (err) {
+    reportError(err)
+  }
+}
+
 const reportError = (error) => {
   console.log(error)
 }
+
+const structuredMint = (mintData) =>
+  mintData
+    .map((mint) => ({
+      id: mint.id.toNumber(),
+      owner: mint.owner,
+      mintCost: fromWei(mint.mintCost),
+      timestamp: mint.timestamp.toNumber(),
+      traits: {
+        name: mint.traits.name,
+        description: mint.traits.description,
+        weapon: mint.traits.weapon,
+        image: mint.traits.image,
+        environment: mint.traits.environment,
+        rarity: mint.traits.rarity.toNumber(),
+      },
+    }))
+    .sort((a, b) => b.timestamp - a.timestamp)
 
 export {
   connectWallet,
@@ -142,4 +178,5 @@ export {
   breedNft,
   getMintedNfts,
   getMintedNft,
+  loadData,
 }
