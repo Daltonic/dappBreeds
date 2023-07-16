@@ -4,6 +4,9 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
   connectedAccount: '',
   nfts: [],
   breeds: [],
+  father: null,
+  mother: null,
+  mintCost: 0,
 })
 
 const truncate = (text, startChars, endChars, maxLength) => {
@@ -35,7 +38,6 @@ export {
   setGlobalState,
   useGlobalState,
   getGlobalState,
-
   addToLab,
   remFromLab,
   truncate,

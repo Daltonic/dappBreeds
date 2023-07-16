@@ -5,12 +5,24 @@ import Home from './pages/Home'
 import Details from './pages/Details'
 import Collections from './pages/Collections'
 import Lab from './pages/Lab'
+import { isWalletConnected, loadData } from './services/blockchain'
+import { useEffect } from 'react'
+import { ToastContainer } from 'react-toastify'
 
 const App = () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      await isWalletConnected()
+      await loadData()
+    }
+
+    fetchData()
+  }, [])
+
   return (
-    <div className='min-h-screen'>
+    <div className="min-h-screen">
       <Navbar />
-      <div className='h-10' />
+      <div className="h-10" />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/nft/:id" element={<Details />} />
@@ -18,6 +30,19 @@ const App = () => {
         <Route path="/lab" element={<Lab />} />
       </Routes>
       <Footer />
+
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   )
 }
