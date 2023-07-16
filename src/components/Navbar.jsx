@@ -20,7 +20,7 @@ const MobileMenu = () => {
             <Link to={data.path}>
               <div className="relative">
                 <span>{data.title}</span>
-                {data.counter && (
+                {data.counter && breeds.length > 0 && (
                   <span className="bg-white p-1 w-1 rounded-full text-black">
                     {breeds.length}
                   </span>
@@ -58,7 +58,7 @@ const Navbar = () => {
               <Link to={data.path}>
                 <div className="relative font-bold hover:text-blue-700 ">
                   <span>{data.title}</span>
-                  {data.counter && (
+                  {data.counter && breeds.length > 0 && (
                     <span className="bg-white p-1 w-1 rounded-full text-black">
                       {breeds.length}
                     </span>

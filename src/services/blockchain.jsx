@@ -91,7 +91,7 @@ const mintNft = async () => {
   })
 }
 
-const breedNft = async ({ fatherId, motherId }) => {
+const breedNft = async (fatherId, motherId) => {
   if (!ethereum) return alert('please install metamask')
 
   return new Promise(async (resolve, reject) => {
