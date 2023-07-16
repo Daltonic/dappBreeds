@@ -2,10 +2,40 @@ import React from 'react'
 
 import { AiOutlinePlus } from 'react-icons/ai'
 import Button from '../components/Button'
-import { useGlobalState } from '../store'
+import { setGlobalState, useGlobalState } from '../store'
+import { breedNft } from '../services/blockchain'
+import { toast } from 'react-toastify'
 
 const Lab = () => {
   const [breeds] = useGlobalState('breeds')
+  const [connectedAccount] = useGlobalState('connectedAccount')
+
+  const onBreed = async () => {
+    if (!connectedAccount) return toast.warning('Wallet not connected')
+    const fatherId = breeds[0].id
+    const motherId = breeds[1].id
+
+    await toast.promise(
+      new Promise(async (resolve, reject) => {
+        await breedNft(fatherId, motherId)
+          .then((tx) => {
+            console.log(tx)
+            setGlobalState('breeds', [])
+            resolve(tx)
+          })
+          .catch((error) => {
+            console.log(error)
+            reject(error)
+          })
+      }),
+      {
+        pending: 'Approve transaction...',
+        success: 'NFT Breeded successfully 👌',
+        error: 'Encountered error 🤯',
+      }
+    )
+  }
+
   return (
     <div className="mt-4 mb-10">
       {breeds.length > 0 ? (
@@ -13,12 +43,17 @@ const Lab = () => {
           {breeds.map((nft, i) => (
             <div
               key={i}
-              className="flex items-center justify-center cursor-pointer
-            h-[20rem] w-[20rem] bg-transparent border-2 border-blue-500"
+              className="flex items-center justify-center cursor-pointer relative
+              h-[20rem] w-[20rem] bg-transparent border-2 border-blue-500"
+              style={{ backgroundImage: `url(${nft.traits.image})` }}
             >
-              <div className="flex flex-col items-center gap-3 ">
-                <AiOutlinePlus size={32} />
-                <span>Add Mother</span>
+              <div className="absolute inset-0 bg-black opacity-50">
+                <div
+                  className="flex flex-col justify-center items-center
+                  gap-3 text-white h-full font-bold text-5xl"
+                >
+                  <span>{nft.traits.name}</span>
+                </div>
               </div>
             </div>
           ))}
@@ -46,9 +81,19 @@ const Lab = () => {
         </div>
       )}
 
-      <div className=" py-4  flex   flex-col md:flex-row justify-center items-center  gap-4">
+      <div className="py-4 flex flex-col md:flex-row justify-center items-center  gap-4">
         <Button>Random Selection</Button>
-        <Button>Mint NFT</Button>
+        {breeds.length >= 2 && (
+          <button
+            className="bg-transparent hover:bg-blue-500
+            text-white font-semibold hover:text-white
+            py-2 px-4 border border-white hover:border-blue-500 
+            rounded-sm transition-all duration-300"
+            onClick={onBreed}
+          >
+            Breed NFT
+          </button>
+        )}
         <Button>Clear Selection</Button>
       </div>
     </div>

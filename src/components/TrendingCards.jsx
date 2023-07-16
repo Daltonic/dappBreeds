@@ -29,10 +29,6 @@ const TrendingCards = ({ nfts }) => {
         loop={true}
         slidesPerView={1}
         spaceBetween={10}
-        autoplay={{
-          delay: 2500,
-          disableOnInteraction: false,
-        }}
         pagination={{
           clickable: true,
         }}
@@ -51,7 +47,6 @@ const TrendingCards = ({ nfts }) => {
           },
         }}
         modules={[Pagination, Autoplay]}
-        centeredSlides={true}
         className="mySwiper"
       >
         {nfts.map((nft, i) => (
@@ -72,7 +67,8 @@ const TrendingCards = ({ nfts }) => {
               >
                 <div className="flex flex-col gap-2 font-bold text-xl text-blue-500">
                   <span>
-                    #{nft.id} {nft.traits.weapon} & {nft.traits.environment}
+                    {nft.traits.name} {nft.traits.weapon} &{' '}
+                    {nft.traits.environment}
                   </span>
                 </div>
                 <span>{nft.description}</span>
