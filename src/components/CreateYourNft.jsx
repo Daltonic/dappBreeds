@@ -4,7 +4,6 @@ import CollectionCard from './CollectionCard'
 const CreateYourNft = ({ collection, title }) => {
   const [end, setEnd] = useState(4)
   const [count] = useState(4)
-
   const [nfts, setNfts] = useState([])
 
   const getNfts = () => {
@@ -15,8 +14,8 @@ const CreateYourNft = ({ collection, title }) => {
     setNfts(getNfts())
   }, [collection, end])
 
-  return (
-    <div className="my-5 py-10  flex flex-col w-full ">
+  return collection?.length > 0 ? (
+    <div className="my-5 py-10 flex flex-col w-full mx-auto">
       <div className="flex items-center justify-center ">
         <h2 className="font-extrabold text-3xl md:text-5xl text-white ">
           {title ? title : 'Recent Breedings'}
@@ -43,7 +42,7 @@ const CreateYourNft = ({ collection, title }) => {
         </div>
       )}
     </div>
-  )
+  ) : null
 }
 
 export default CreateYourNft

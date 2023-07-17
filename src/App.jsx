@@ -19,8 +19,8 @@ const App = () => {
   const [connectedAccount] = useGlobalState('connectedAccount')
   useEffect(() => {
     const fetchData = async () => {
-      await isWalletConnected()
       await loadData()
+      await isWalletConnected()
       await checkAuthState()
     }
 
@@ -30,7 +30,7 @@ const App = () => {
   return (
     <div className="min-h-screen relative">
       <Navbar />
-      <Spacer spaces={1} />
+      <Spacer spaces={2} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/nft/:id" element={<Details />} />
