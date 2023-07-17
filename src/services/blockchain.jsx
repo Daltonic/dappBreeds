@@ -104,6 +104,7 @@ const breedNft = async (fatherId, motherId) => {
       })
 
       await tx.wait()
+      await getBreededNfts()
       resolve(tx)
     } catch (err) {
       reportError(err)
@@ -112,7 +113,7 @@ const breedNft = async (fatherId, motherId) => {
   })
 }
 
-const getMintedNfts = async () => {
+const getAllNfts = async () => {
   try {
     if (!ethereum) return console.log('please install metamask')
     const contract = await getEthereumContract()
@@ -124,13 +125,49 @@ const getMintedNfts = async () => {
   }
 }
 
-const getMintedNft = async (tokenId) => {
+const getMintedNfts = async () => {
   try {
     if (!ethereum) return console.log('please install metamask')
     const contract = await getEthereumContract()
 
-    const nft = await contract.getMintedNft(tokenId)
-    console.log(nft)
+    const nfts = await contract.getMintedNfts()
+    setGlobalState('minted', structuredMint(nfts))
+  } catch (err) {
+    reportError(err)
+  }
+}
+
+const getBreededNfts = async () => {
+  try {
+    if (!ethereum) return console.log('please install metamask')
+    const contract = await getEthereumContract()
+
+    const nfts = await contract.getBreededNfts()
+    setGlobalState('breeded', structuredMint(nfts))
+  } catch (err) {
+    reportError(err)
+  }
+}
+
+const getMyNfts = async () => {
+  try {
+    if (!ethereum) return console.log('please install metamask')
+    const contract = await getEthereumContract()
+
+    const nfts = await contract.getMyNfts()
+    setGlobalState('collection', structuredMint(nfts))
+  } catch (err) {
+    reportError(err)
+  }
+}
+
+const getAnNft = async (tokenId) => {
+  try {
+    if (!ethereum) return console.log('please install metamask')
+    const contract = await getEthereumContract()
+
+    const nft = await contract.getNft(tokenId)
+    setGlobalState('nft', structuredMint([nft])[0])
   } catch (err) {
     reportError(err)
   }
@@ -142,7 +179,10 @@ const loadData = async () => {
     const contract = await getEthereumContract()
     const mintCost = await contract.mintCost()
 
+    // await getAllNfts()
     await getMintedNfts()
+    await getBreededNfts()
+    await getMyNfts()
     setGlobalState('mintCost', fromWei(mintCost))
   } catch (err) {
     reportError(err)
@@ -176,7 +216,10 @@ export {
   isWalletConnected,
   mintNft,
   breedNft,
+  getAllNfts,
   getMintedNfts,
-  getMintedNft,
+  getBreededNfts,
+  getMyNfts,
+  getAnNft,
   loadData,
 }

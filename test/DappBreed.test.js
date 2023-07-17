@@ -24,7 +24,7 @@ describe('Contracts', () => {
   })
 
   beforeEach(async () => {
-    await contract.connect(user1).mintNft({
+    await contract.mintNft({
       value: toWei(0.005),
     })
   })
@@ -34,7 +34,7 @@ describe('Contracts', () => {
       result = await contract.getMintedNfts()
       expect(result).to.have.lengthOf(1)
 
-      result = await contract.getMintedNft(id)
+      result = await contract.getNft(id)
       expect(result.id).to.be.equal(id)
     })
 
@@ -42,7 +42,7 @@ describe('Contracts', () => {
       result = await contract.getMintedNfts()
       expect(result).to.have.lengthOf(1)
 
-      await contract.connect(user2).mintNft({
+      await contract.connect(user1).mintNft({
         value: toWei(0.005),
       })
 
@@ -59,26 +59,29 @@ describe('Contracts', () => {
     })
 
     it('it should confirm nft breeding', async () => {
-      result = await contract.getMintedNfts()
+      result = await contract.getAllNfts()
       expect(result).to.have.lengthOf(2)
 
-      await contract.connect(user2).breedNft(fatherTokenId, motherTokenId, {
+      result = await contract.getBreededNfts()
+      expect(result).to.have.lengthOf(0)
+
+      const father = await contract.getNft(fatherTokenId)
+      const mother = await contract.getNft(motherTokenId)
+
+      await contract.connect(user1).breedNft(father.id.toNumber(), mother.id.toNumber(), {
         value: toWei(0.005),
       })
 
-      result = await contract.getMintedNfts()
-      expect(result).to.have.lengthOf(3)
+      result = await contract.getMyNfts()
+      expect(result).to.have.lengthOf(1)
 
-      const fatherTraits = await contract.getMintedNft(fatherTokenId)
-      const motherTraits = await contract.getMintedNft(motherTokenId)
-      const childTraits = await contract.getMintedNft(childTokenId)
+      result = await contract.getBreededNfts()
+      expect(result).to.have.lengthOf(1)
 
-      expect(`Inherited Father weapon of #${fatherTraits.traits.weapon}`).to.be.equal(
-        childTraits.traits.weapon
-      )
-      expect(
-        `Inherited Mother environment of #${motherTraits.traits.environment}`
-      ).to.be.equal(childTraits.traits.environment)
+      const child = await contract.getNft(childTokenId)
+
+      expect(father.traits.weapon).to.be.equal(child.traits.weapon)
+      expect(mother.traits.environment).to.be.equal(child.traits.environment)
     })
   })
 })
