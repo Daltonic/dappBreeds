@@ -8,6 +8,7 @@ import Lab from './pages/Lab'
 import { isWalletConnected, loadData } from './services/blockchain'
 import { useEffect } from 'react'
 import { ToastContainer } from 'react-toastify'
+import ChatButton from './components/ChatButton'
 
 const App = () => {
   useEffect(() => {
@@ -20,7 +21,7 @@ const App = () => {
   }, [])
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
       <Navbar />
       <div className="h-10" />
       <Routes>
@@ -30,6 +31,7 @@ const App = () => {
         <Route path="/lab" element={<Lab />} />
       </Routes>
       <Footer />
+      <ChatButton />
 
       <ToastContainer
         position="bottom-center"
