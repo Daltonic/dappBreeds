@@ -7,7 +7,7 @@ const Collections = () => {
 
   return (
     <div className="mt-4 mb-10 p-10 md:p-20  flex flex-col w-full ">
-      <CreateYourNft nfts={collection} title="Your Collection" />
+      <CreateYourNft collection={collection} title="Your Collection" />
     </div>
   )
 }
