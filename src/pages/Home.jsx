@@ -14,7 +14,7 @@ const Home = () => {
       <Hero />
       <Sponsors />
       <Trending nfts={minted} />
-      <CreateYourNft nfts={breeded} />
+      {breeded.length > 0 && <CreateYourNft nfts={breeded} />}
     </div>
   )
 }

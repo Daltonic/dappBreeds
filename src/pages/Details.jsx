@@ -1,30 +1,41 @@
-import { useEffect } from 'react'
-import Heroimage3 from '../assets/heroimage3.jpg'
+import { useEffect, useState } from 'react'
 import CreateYourNft from '../components/CreateYourNft'
-import { getAnNft } from '../services/blockchain'
+import { getAnNft, getParentsNft } from '../services/blockchain'
 import { useParams } from 'react-router-dom'
 import { truncate, useGlobalState } from '../store'
 
 const Details = () => {
   const [nft] = useGlobalState('nft')
+  const [parents] = useGlobalState('parents')
   const { id } = useParams()
+  const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
       await getAnNft(id)
+      await getParentsNft(id)
+      setLoaded(true)
     }
 
     fetchData()
   }, [])
 
-  return (
+  return loaded ? (
     <div className="w-full flex flex-col">
       <div className="flex flex-col p-5 w-full items-center justify-center lg:flex-row gap-20 mt-10">
         <NFTImage nft={nft} />
         <NFTInfo nft={nft} />
       </div>
 
-      <CreateYourNft nfts={[nft, nft]} title="Inherited From" />
+      {parents.length > 0 && (
+        <CreateYourNft nfts={parents} title="Inherited From" />
+      )}
+    </div>
+  ) : (
+    <div className="w-full flex flex-col">
+      <h2 className="font-extrabold text-3xl md:text-5xl text-white text-center">
+        Loading...
+      </h2>
     </div>
   )
 }

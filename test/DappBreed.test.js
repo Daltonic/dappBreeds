@@ -77,8 +77,24 @@ describe('Contracts', () => {
 
       result = await contract.getBreededNfts()
       expect(result).to.have.lengthOf(1)
+    })
+
+    it('it should confirm nft breeded parents', async () => {
+      const father = await contract.getNft(fatherTokenId)
+      const mother = await contract.getNft(motherTokenId)
+
+      await contract.breedNft(father.id.toNumber(), mother.id.toNumber(), {
+        value: toWei(0.005),
+      })
 
       const child = await contract.getNft(childTokenId)
+      expect(father.id).to.be.equal(child.traits.parents[0])
+      expect(mother.id).to.be.equal(child.traits.parents[1])
+
+      result = await contract.getParentsOf(child.id)
+      expect(result).to.have.lengthOf(2)
+      expect(result[0].id).to.be.equal(father.id)
+      expect(result[1].id).to.be.equal(mother.id)
 
       expect(father.traits.weapon).to.be.equal(child.traits.weapon)
       expect(mother.traits.environment).to.be.equal(child.traits.environment)

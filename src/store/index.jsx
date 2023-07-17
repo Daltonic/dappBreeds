@@ -7,9 +7,8 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
   breeded: [],
   collection: [],
   breeds: [],
+  parents: [],
   nft: null,
-  father: null,
-  mother: null,
   mintCost: 0,
 })
 
