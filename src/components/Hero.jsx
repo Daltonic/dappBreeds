@@ -1,9 +1,8 @@
 import React from 'react'
 import Heroimage3 from '../assets/heroimage3.jpg'
-import { useGlobalState } from '../store'
+import { setGlobalState, useGlobalState } from '../store'
 import { toast } from 'react-toastify'
-import { mintNft } from '../services/blockchain'
-import { useNavigate } from 'react-router-dom'
+import { breedNft, mintNft } from '../services/blockchain'
 
 const Hero = () => {
   return (
@@ -17,7 +16,6 @@ const Hero = () => {
 const HeroActions = () => {
   const [breeds] = useGlobalState('breeds')
   const [connectedAccount] = useGlobalState('connectedAccount')
-  const navigate = useNavigate()
 
   const onMint = async () => {
     if (!connectedAccount) return toast.warning('Wallet not connected')
@@ -42,6 +40,32 @@ const HeroActions = () => {
     )
   }
 
+  const onBreed = async () => {
+    if (!connectedAccount) return toast.warning('Wallet not connected')
+    const fatherId = breeds[0].id
+    const motherId = breeds[1].id
+
+    await toast.promise(
+      new Promise(async (resolve, reject) => {
+        await breedNft(fatherId, motherId)
+          .then((tx) => {
+            console.log(tx)
+            setGlobalState('breeds', [])
+            resolve(tx)
+          })
+          .catch((error) => {
+            console.log(error)
+            reject(error)
+          })
+      }),
+      {
+        pending: 'Approve transaction...',
+        success: 'NFT Breeded successfully 👌',
+        error: 'Encountered error 🤯',
+      }
+    )
+  }
+
   return (
     <div className="flex flex-col   gap-8 items-start justify-center  ">
       <div className=" flex  flex-col  font-bold text-white  gap-5">
@@ -53,10 +77,11 @@ const HeroActions = () => {
           <h2>Gallery</h2>
         </div>
         <p className="flex w-auto  md:w-[450px] font-normal">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book. It has survived not
+          Take it a step further and explore the exciting world of NFT breeding.
+          Combine traits, characteristics, and attributes of your existing NFTs
+          to create entirely new and extraordinary pieces. Unleash your
+          creativity and experiment with endless possibilities to breed your own
+          masterpiece.
         </p>
       </div>
 
@@ -71,17 +96,21 @@ const HeroActions = () => {
 
         <button
           className="border-2 border-blue-500 hover:bg-blue-500 hover:text-white text-blue-500 font-bold
-          rounded-full transition-all duration-300 py-4 px-6 sm:px-14"
-          onClick={() => navigate('/lab')}
+          rounded-full transition-all duration-300 py-4 px-6 sm:px-14 space-x-1"
+          onClick={onBreed}
         >
-          <span>Lab Breed</span>
-          {breeds.length > 0 && <span>({breeds.length})</span>}
+          <span>Breed Now</span>
+          {breeds.length > 0 && (
+            <span className="bg-white p-1 rounded-full text-black">
+              {breeds.length}
+            </span>
+          )}
         </button>
       </div>
 
       <div className="flex justify-center items-center  ml-5 gap-10 text-white ">
         <div>
-          <span>Art Work</span>
+          <span>Artworks</span>
           <p className="font-bold">21.5k </p>
         </div>
         <div>
@@ -89,7 +118,7 @@ const HeroActions = () => {
           <p className="font-bold">15.6k </p>
         </div>
         <div>
-          <span>Auction</span>
+          <span>Breeds</span>
           <p className="font-bold">21.5k </p>
         </div>
       </div>

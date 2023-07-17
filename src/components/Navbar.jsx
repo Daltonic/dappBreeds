@@ -56,7 +56,7 @@ const Navbar = () => {
           {navdata.map((data) => (
             <div key={data.id}>
               <Link to={data.path}>
-                <div className="relative font-bold hover:text-blue-700 ">
+                <div className="font-bold hover:text-blue-700 ">
                   <span>{data.title}</span>
                   {data.counter && breeds.length > 0 && (
                     <span className="bg-white p-1 w-1 rounded-full text-black">

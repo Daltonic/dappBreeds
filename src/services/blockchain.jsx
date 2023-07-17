@@ -45,6 +45,7 @@ const isWalletConnected = async () => {
 
     window.ethereum.on('accountsChanged', async () => {
       setGlobalState('connectedAccount', accounts[0])
+      await getMyNfts()
       await isWalletConnected()
     })
 
@@ -105,6 +106,7 @@ const breedNft = async (fatherId, motherId) => {
 
       await tx.wait()
       await getBreededNfts()
+      await getMintedNfts()
       resolve(tx)
     } catch (err) {
       reportError(err)
@@ -179,7 +181,7 @@ const loadData = async () => {
     const contract = await getEthereumContract()
     const mintCost = await contract.mintCost()
 
-    // await getAllNfts()
+    await getAllNfts()
     await getMintedNfts()
     await getBreededNfts()
     await getMyNfts()
@@ -207,6 +209,7 @@ const structuredMint = (mintData) =>
         image: mint.traits.image,
         environment: mint.traits.environment,
         rarity: mint.traits.rarity.toNumber(),
+        breeded: mint.traits.breeded,
       },
     }))
     .sort((a, b) => b.timestamp - a.timestamp)

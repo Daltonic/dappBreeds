@@ -7,6 +7,7 @@ import { breedNft } from '../services/blockchain'
 import { toast } from 'react-toastify'
 
 const Lab = () => {
+  const [nfts] = useGlobalState('nfts')
   const [breeds] = useGlobalState('breeds')
   const [connectedAccount] = useGlobalState('connectedAccount')
 
@@ -34,6 +35,24 @@ const Lab = () => {
         error: 'Encountered error 🤯',
       }
     )
+  }
+
+  const onRandomSelect = () => {
+    setGlobalState('breeds', shuffleArray(nfts).slice(0, 2))
+  }
+
+  const shuffleArray = (array) => {
+    const shuffledArray = [...array]
+
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const randomIndex = Math.floor(Math.random() * (i + 1))
+      ;[shuffledArray[i], shuffledArray[randomIndex]] = [
+        shuffledArray[randomIndex],
+        shuffledArray[i],
+      ]
+    }
+
+    return shuffledArray
   }
 
   return (
@@ -82,7 +101,15 @@ const Lab = () => {
       )}
 
       <div className="py-4 flex flex-col md:flex-row justify-center items-center  gap-4">
-        <Button>Random Selection</Button>
+        <button
+          className="bg-transparent hover:bg-blue-500
+            text-white font-semibold hover:text-white
+            py-2 px-4 border border-white hover:border-blue-500 
+            rounded-sm transition-all duration-300"
+          onClick={onRandomSelect}
+        >
+          Randomly Select
+        </button>
         {breeds.length >= 2 && (
           <button
             className="bg-transparent hover:bg-blue-500
@@ -91,10 +118,18 @@ const Lab = () => {
             rounded-sm transition-all duration-300"
             onClick={onBreed}
           >
-            Breed NFT
+            Breed Now
           </button>
         )}
-        <Button>Clear Selection</Button>
+        <button
+          className="bg-transparent hover:bg-blue-500
+            text-white font-semibold hover:text-white
+            py-2 px-4 border border-white hover:border-blue-500 
+            rounded-sm transition-all duration-300"
+          onClick={() => setGlobalState('breeds', [])}
+        >
+          Clear Selection
+        </button>
       </div>
     </div>
   )
