@@ -1,7 +1,5 @@
 import React from 'react'
-
 import { AiOutlinePlus } from 'react-icons/ai'
-import Button from '../components/Button'
 import { setGlobalState, useGlobalState } from '../store'
 import { breedNft } from '../services/blockchain'
 import { toast } from 'react-toastify'
