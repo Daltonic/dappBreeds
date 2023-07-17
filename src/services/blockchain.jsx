@@ -105,6 +105,7 @@ const breedNft = async (fatherId, motherId) => {
 
       await tx.wait()
       await getBreededNfts()
+      await getMintedNfts()
       resolve(tx)
     } catch (err) {
       reportError(err)

@@ -1,5 +1,4 @@
 import React from 'react'
-import heroimage1 from '../assets/heroimage1.jpg'
 import { Link } from 'react-router-dom'
 
 const CollectionCard = ({ nft }) => (

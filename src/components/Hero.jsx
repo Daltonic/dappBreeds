@@ -1,9 +1,8 @@
 import React from 'react'
 import Heroimage3 from '../assets/heroimage3.jpg'
-import { useGlobalState } from '../store'
+import { setGlobalState, useGlobalState } from '../store'
 import { toast } from 'react-toastify'
-import { mintNft } from '../services/blockchain'
-import { useNavigate } from 'react-router-dom'
+import { breedNft, mintNft } from '../services/blockchain'
 
 const Hero = () => {
   return (
@@ -17,7 +16,6 @@ const Hero = () => {
 const HeroActions = () => {
   const [breeds] = useGlobalState('breeds')
   const [connectedAccount] = useGlobalState('connectedAccount')
-  const navigate = useNavigate()
 
   const onMint = async () => {
     if (!connectedAccount) return toast.warning('Wallet not connected')
@@ -37,6 +35,32 @@ const HeroActions = () => {
       {
         pending: 'Approve transaction...',
         success: 'NFT Minted successfully 👌',
+        error: 'Encountered error 🤯',
+      }
+    )
+  }
+
+  const onBreed = async () => {
+    if (!connectedAccount) return toast.warning('Wallet not connected')
+    const fatherId = breeds[0].id
+    const motherId = breeds[1].id
+
+    await toast.promise(
+      new Promise(async (resolve, reject) => {
+        await breedNft(fatherId, motherId)
+          .then((tx) => {
+            console.log(tx)
+            setGlobalState('breeds', [])
+            resolve(tx)
+          })
+          .catch((error) => {
+            console.log(error)
+            reject(error)
+          })
+      }),
+      {
+        pending: 'Approve transaction...',
+        success: 'NFT Breeded successfully 👌',
         error: 'Encountered error 🤯',
       }
     )
@@ -71,11 +95,15 @@ const HeroActions = () => {
 
         <button
           className="border-2 border-blue-500 hover:bg-blue-500 hover:text-white text-blue-500 font-bold
-          rounded-full transition-all duration-300 py-4 px-6 sm:px-14"
-          onClick={() => navigate('/lab')}
+          rounded-full transition-all duration-300 py-4 px-6 sm:px-14 space-x-1"
+          onClick={onBreed}
         >
-          <span>Lab Breed</span>
-          {breeds.length > 0 && <span>({breeds.length})</span>}
+          <span>Breed Now</span>
+          {breeds.length > 0 && (
+            <span className="bg-white p-1 rounded-full text-black">
+              {breeds.length}
+            </span>
+          )}
         </button>
       </div>
 
