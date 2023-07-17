@@ -100,7 +100,7 @@ const ConnectButton = () => {
   return connectedAccount ? (
     <button
       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4
-      px-6 rounded-full transition-all duration-300"
+      px-6 rounded-full transition-all duration-300 shadow-md shadow-black"
     >
       {truncate(connectedAccount, 4, 4, 11)}
     </button>
@@ -108,7 +108,7 @@ const ConnectButton = () => {
     <button
       onClick={connectWallet}
       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4
-      px-6 rounded-full transition-all duration-300"
+      px-6 rounded-full transition-all duration-300 shadow-md shadow-black"
     >
       Connect Wallet
     </button>

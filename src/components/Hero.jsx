@@ -88,7 +88,7 @@ const HeroActions = () => {
       <div className="flex gap-5">
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold
-          rounded-full transition-all duration-300 py-4 px-6 sm:px-14"
+          rounded-full transition-all duration-300 py-4 px-6 sm:px-14 shadow-md shadow-black"
           onClick={onMint}
         >
           Mint
@@ -96,7 +96,7 @@ const HeroActions = () => {
 
         <button
           className="border-2 border-blue-500 hover:bg-blue-500 hover:text-white text-blue-500 font-bold
-          rounded-full transition-all duration-300 py-4 px-6 sm:px-14 space-x-1"
+          rounded-full transition-all duration-300 py-4 px-6 sm:px-14 space-x-1 shadow-md shadow-black"
           onClick={onBreed}
         >
           <span>Breed Now</span>
