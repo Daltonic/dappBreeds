@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import Identicon from 'react-identicons'
 import { getMessages, listenForMessage, sendMessage } from '../services/chat'
 import { useParams } from 'react-router-dom'
-import { truncate } from '../store'
+import { setGlobalState, truncate, useGlobalState } from '../store'
 
 const Chat = () => {
   const [message, setMessage] = useState('')
-  const [messages, setMessages] = useState([])
+  const [messages] = useGlobalState('messages')
+  const [connectedAccount] = useGlobalState('connectedAccount')
+
   const { id } = useParams()
 
   const onSendMessage = async (e) => {
@@ -14,7 +16,7 @@ const Chat = () => {
     if (!message) return
 
     await sendMessage(id, message).then((msg) => {
-      setMessages((prevState) => [...prevState, msg])
+      setGlobalState('messages', (prevState) => [...prevState, msg])
       setMessage('')
       scrollToEnd()
     })
@@ -23,12 +25,12 @@ const Chat = () => {
   useEffect(() => {
     const fetchData = async () => {
       await getMessages(id).then((msgs) => {
-        setMessages(msgs)
+        setGlobalState('messages', msgs)
         scrollToEnd()
       })
 
       await listenForMessage(id).then((msg) => {
-        setMessages((prevState) => [...prevState, msg])
+        setGlobalState('messages', (prevState) => [...prevState, msg])
         scrollToEnd()
       })
     }
@@ -58,6 +60,7 @@ const Chat = () => {
                 text={msg.text}
                 owner={msg.sender.uid}
                 time={Number(msg.sentAt + '000')}
+                you={connectedAccount == msg.sender.uid}
                 key={i}
               />
             ))}
@@ -78,7 +81,7 @@ const Chat = () => {
   )
 }
 
-const Message = ({ text, time, owner }) => {
+const Message = ({ text, time, owner, you }) => {
   return (
     <div className="flex justify-between items-end space-x-4 px-6 mb-4 w-full">
       <div className="flex justify-start items-center">
@@ -89,9 +92,9 @@ const Message = ({ text, time, owner }) => {
         />
 
         <div>
-          <h3 className="text-md font-bold">{truncate(owner, 4, 4, 11)}</h3>
+          <h3 className="text-md font-bold">{you ? '@You' : truncate(owner, 4, 4, 11)}</h3>
           <p className="flex flex-col text-gray-500 text-xs font-semibold">
-            {text}
+            {text} 
           </p>
         </div>
       </div>

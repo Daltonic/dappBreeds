@@ -3,6 +3,8 @@ import { createGlobalState } from 'react-hooks-global-state'
 const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
   connectedAccount: '',
   chatListModal: 'scale-0',
+  conversations: [],
+  messages: [],
   nfts: [],
   minted: [],
   breeded: [],

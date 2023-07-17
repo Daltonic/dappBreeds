@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import CollectionCard from './CollectionCard'
-import { useGlobalState } from '../store'
 
 const CreateYourNft = ({ collection, title }) => {
-  const [breeds] = useGlobalState('breeds')
-
   const [end, setEnd] = useState(4)
   const [count] = useState(4)
 
@@ -26,8 +23,8 @@ const CreateYourNft = ({ collection, title }) => {
         </h2>
       </div>
 
-      <div className="my-10 w-full">
-        <div className="flex flex-col lg:flex-row justify-center items-center gap-3">
+      <div className="my-10 p-10 md:p-20 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-4 lg:gap-3 py-2.5">
           {nfts.map((nft, i) => (
             <CollectionCard key={i} nft={nft} />
           ))}

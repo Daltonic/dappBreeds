@@ -80,6 +80,20 @@ const getMessages = async (UID) => {
   })
 }
 
+const getConversations = async () => {
+  const limit = 30
+  const conversationsRequest = new CometChat.ConversationsRequestBuilder()
+    .setLimit(limit)
+    .build()
+
+  return new Promise(async (resolve, reject) => {
+    await conversationsRequest
+      .fetchNext()
+      .then((conversations) => resolve(conversations))
+      .catch((error) => reject(error))
+  })
+}
+
 const sendMessage = async (receiverID, messageText) => {
   const receiverType = CometChat.RECEIVER_TYPE.USER
   const textMessage = new CometChat.TextMessage(
@@ -114,4 +128,5 @@ export {
   sendMessage,
   checkAuthState,
   listenForMessage,
+  getConversations,
 }

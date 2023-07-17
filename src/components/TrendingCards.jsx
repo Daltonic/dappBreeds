@@ -33,7 +33,7 @@ const TrendingCards = ({ collection }) => {
 
   return (
     <div className="mt-20 w-full flex flex-col">
-      <div className="flex flex-col lg:flex-row justify-center items-center gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-4 lg:gap-3 py-2.5">
         {nfts.map((nft, i) => (
           <div
             key={i}
