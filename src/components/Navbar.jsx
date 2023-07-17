@@ -1,12 +1,16 @@
-import { React, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { AiOutlineClose } from 'react-icons/ai'
-import { BiMenuAltRight } from 'react-icons/bi'
-import { navdata } from '../constants'
-import { useGlobalState } from '../store'
+import { React, useState } from "react";
+import { Link } from "react-router-dom";
+import { AiOutlineClose } from "react-icons/ai";
+import { BiMenuAltRight } from "react-icons/bi";
+import { navdata } from "../constants";
+import { useGlobalState } from "../store";
+import { connectWallet } from "../services/blockchain";
+import { truncate } from "../store";
 
 const MobileMenu = () => {
-  const [breeds] = useGlobalState('breeds')
+  const [breeds] = useGlobalState("breeds");
+   const [connectedAccount] = useGlobalState("connectedAccount");
+
   return (
     <div className="p-6 fixed top-20 right-0 mx-4 my-2 w-auto flex bg-[#1b1b1b] rounded-xl tilt-in-fwd-tr shadow-md z-10 ">
       <ul className="flex flex-col space-y-8 text-white align-center justify-center items-start align-center">
@@ -28,21 +32,32 @@ const MobileMenu = () => {
           </li>
         ))}
         <li className=" flex items-center  shadow-md cursor-pointer  hover:text-gray-500">
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4
-            px-6 rounded-full transition-all duration-300"
-          >
-            Connect Wallet
-          </button>
+          {connectedAccount ? (
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4
+             px-6 rounded-full transition-all duration-300"
+            >
+              {truncate(connectedAccount, 4, 4, 11)}
+            </button>
+          ) : (
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4
+             px-6 rounded-full transition-all duration-300"
+              onClick={connectWallet}
+            >
+              Connect Wallet
+            </button>
+          )}
         </li>
       </ul>
     </div>
-  )
-}
+  );
+};
 
 const Navbar = () => {
-  const [toggleMenu, setToggleMenu] = useState(false)
-  const [breeds] = useGlobalState('breeds')
+  const [toggleMenu, setToggleMenu] = useState(false);
+  const [breeds] = useGlobalState("breeds");
+  const [connectedAccount] = useGlobalState("connectedAccount");
 
   return (
     <div
@@ -72,12 +87,22 @@ const Navbar = () => {
         </div>
 
         <div className="flex justify-start mr-20">
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4
-            px-6 rounded-full transition-all duration-300"
-          >
-            Connect Wallet
-          </button>
+          {connectedAccount ? (
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4
+             px-6 rounded-full transition-all duration-300"
+            >
+              {truncate(connectedAccount, 4, 4, 11)}
+            </button>
+          ) : (
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4
+             px-6 rounded-full transition-all duration-300"
+              onClick={connectWallet}
+            >
+              Connect Wallet
+            </button>
+          )}
         </div>
       </div>
 
@@ -93,12 +118,12 @@ const Navbar = () => {
             onClick={() => setToggleMenu(!toggleMenu)}
           />
         )}
-        <div className={`${!toggleMenu ? 'hidden' : 'flex'}`}>
+        <div className={`${!toggleMenu ? "hidden" : "flex"}`}>
           <MobileMenu />
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

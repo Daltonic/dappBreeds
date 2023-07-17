@@ -20,7 +20,7 @@ const HeroActions = () => {
         <div className=" text-3xl sm:text-5xl  font-bold md:text-7xl ">
           <h2>Create Your</h2>
           <h2>
-            Own<span>NFT Dream </span>
+            Own<span> NFT Dream </span>
           </h2>
           <h2>Gallery</h2>
         </div>

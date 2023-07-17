@@ -188,6 +188,10 @@ contract DappBreed is ERC721, ERC721URIStorage, Ownable, ReentrancyGuard {
         baseURI = _newBaseURI;
     }
 
+    function getMintCost () public returns (uint256) {
+        return mintCost;
+    }
+
     function _performMinting(
         uint256 _tokenId,
         address holder

@@ -2,7 +2,7 @@ import { setGlobalState, getGlobalState } from "../store";
 import abi from "../abis/src/contracts/DappBreed.sol/DappBreed.json";
 import address from "../abis/contractAddress.json";
 import { ethers } from "ethers";
-import { logOutWithCometChat } from './chat'
+// import { logOutWithCometChat } from './chat'
 
 const { ethereum } = window;
 const ContractAddress = address.address;
@@ -43,7 +43,7 @@ const isWalletConnected = async () => {
     window.ethereum.on("accountsChanged", async () => {
       setGlobalState("connectedAccount", accounts[0]);
       await isWalletConnected();
-      await logOutWithCometChat();
+      // await logOutWithCometChat();
     });
 
     if (accounts.length) {
@@ -129,6 +129,7 @@ const getMintedNfts = async () => {
     const contract = await getEthereumContract();
 
     const nfts = await contract.getMintedNfts();
+    setGlobalState('nfts',structuredNft(nfts))
   } catch (err) {
     reportError(err);
   }
@@ -140,6 +141,7 @@ const getMintedNft = async (tokenId) => {
     const contract = await getEthereumContract();
 
     const nft = await contract.getMintedNft(tokenId);
+    setGlobalState('nft', structuredNft([nft])[0])
   } catch (err) {
     reportError(err);
   }
@@ -151,7 +153,51 @@ const getTrait = async (tokenId) => {
     const contract = await getEthereumContract();
 
     const trait = await contract.getMintedNft(tokenId);
+    setGlobalState('trait', structuredTrait([trait])[0])
   } catch (err) {
     reportError(err);
   }
+};
+
+const owner = async ()=> {
+  try {
+    if (!ethereum) return console.log("please install metamask");
+    const contract = await getEthereumContract();
+
+    const owner = await contract.owner()
+    setGlobalState('deployer', owner)
+  } catch (err) {
+    reportError(err);
+  }
+}
+
+const structuredNft = (nfts) =>
+  nfts.map((nft) => ({
+    tokenId: Number(nft.tokenId),
+    owner: nft.owner.toLowerCase(),
+    mintCost: fromWei(nft.mintCost),
+    baseURI: nft.baseURI,
+    timestamp: new Date(nft.timestamp).getTime(),
+  }));
+
+const structuredTrait = (traits)=> 
+  traits.map((trait)=> ({
+    tokenId: Number(trait.tokenId),
+    name: trait.name,
+    description: trait.description,
+    weapon: trait.weapon,
+    environment: trait.environment,
+    rarity: Number(trait.rarity),
+  }))
+
+
+export {
+  isWalletConnected,
+  connectWallet,
+  mintNft,
+  breedNft,
+  setBaseUri,
+  getMintedNfts,
+  getMintedNft,
+  getTrait,
 };
