@@ -45,6 +45,7 @@ const isWalletConnected = async () => {
 
     window.ethereum.on('accountsChanged', async () => {
       setGlobalState('connectedAccount', accounts[0])
+      await getMyNfts()
       await isWalletConnected()
     })
 

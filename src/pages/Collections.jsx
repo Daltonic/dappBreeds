@@ -1,18 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import CollectionCards from '../components/CollectionCards'
-import { useEffect } from 'react'
-import { generateFakeNfts } from '../utils/faker'
+import { useGlobalState } from '../store'
 
 const Collections = () => {
-  const [nfts, setNfts] = useState([])
-  useEffect(() => {
-    const fetchData = async () => {
-      const nftsData = generateFakeNfts(6)
-      setNfts(nftsData)
-    }
+  const [collection] = useGlobalState('collection')
 
-    fetchData()
-  }, [])
   return (
     <div className="mt-4 mb-10 p-10 md:p-20  flex flex-col w-full ">
       <div className="flex items-center justify-center ">
@@ -20,7 +12,7 @@ const Collections = () => {
           My Collection
         </h2>
       </div>
-      <CollectionCards nfts={nfts} />
+      <CollectionCards nfts={collection} />
     </div>
   )
 }
