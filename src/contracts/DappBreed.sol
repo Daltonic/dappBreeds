@@ -22,6 +22,7 @@ contract DappBreed is ERC721, ERC721URIStorage, Ownable, ReentrancyGuard {
         string environment;
         uint256 rarity;
         bool breeded;
+        uint256[] parents;
     }
 
     struct MintStruct {
@@ -141,6 +142,9 @@ contract DappBreed is ERC721, ERC721URIStorage, Ownable, ReentrancyGuard {
         nft.environment = minted[_motherTokenId].traits.environment;
         nft.rarity = randomNum(rarities.length, block.timestamp, 0);
         nft.breeded = true;
+        nft.parents = new uint256[](2);
+        nft.parents[0] = _fatherTokenId;
+        nft.parents[1] = _motherTokenId;
         nft.image = string(
             abi.encodePacked(baseURI, _tokenId.toString(), imageExtension)
         );
@@ -194,7 +198,28 @@ contract DappBreed is ERC721, ERC721URIStorage, Ownable, ReentrancyGuard {
 
         uint256 index;
         for (uint256 i = 0; i < _tokenIdCounter.current(); i++) {
-            if (minted[i + 1].owner == msg.sender) Minted[index++] = minted[i + 1];
+            if (minted[i + 1].owner == msg.sender)
+                Minted[index++] = minted[i + 1];
+        }
+    }
+
+    function getParentsOf(
+        uint256 _tokenId
+    ) public view returns (MintStruct[] memory Minted) {
+        if (!minted[_tokenId].traits.breeded) {
+            Minted = new MintStruct[](0);
+            return Minted;
+        }
+
+        Minted = new MintStruct[](minted[_tokenId].traits.parents.length);
+        uint256 index;
+        for (uint256 i = 0; i < _tokenIdCounter.current(); i++) {
+            if (
+                minted[i + 1].id == minted[_tokenId].traits.parents[0] ||
+                minted[i + 1].id == minted[_tokenId].traits.parents[1]
+            ) {
+                Minted[index++] = minted[i + 1];
+            }
         }
     }
 

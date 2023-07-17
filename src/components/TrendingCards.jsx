@@ -104,7 +104,7 @@ const TrendingCards = ({ nfts }) => {
                     py-2 px-4 border border-white hover:border-blue-500 
                     rounded-sm transition-all duration-300"
                   >
-                    Breed Now
+                    Add Now
                   </button>
                 )}
               </div>

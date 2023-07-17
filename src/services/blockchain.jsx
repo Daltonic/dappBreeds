@@ -120,7 +120,7 @@ const getAllNfts = async () => {
     if (!ethereum) return console.log('please install metamask')
     const contract = await getEthereumContract()
 
-    const nfts = await contract.getMintedNfts()
+    const nfts = await contract.getAllNfts()
     setGlobalState('nfts', structuredMint(nfts))
   } catch (err) {
     reportError(err)
@@ -175,16 +175,28 @@ const getAnNft = async (tokenId) => {
   }
 }
 
+const getParentsNft = async (tokenId) => {
+  try {
+    if (!ethereum) return console.log('please install metamask')
+    const contract = await getEthereumContract()
+
+    const nfts = await contract.getParentsOf(tokenId)
+    setGlobalState('parents', structuredMint(nfts))
+  } catch (err) {
+    reportError(err)
+  }
+}
+
 const loadData = async () => {
   try {
     if (!ethereum) return console.log('please install metamask')
     const contract = await getEthereumContract()
     const mintCost = await contract.mintCost()
 
+    await getMyNfts()
     await getAllNfts()
     await getMintedNfts()
     await getBreededNfts()
-    await getMyNfts()
     setGlobalState('mintCost', fromWei(mintCost))
   } catch (err) {
     reportError(err)
@@ -224,5 +236,6 @@ export {
   getBreededNfts,
   getMyNfts,
   getAnNft,
+  getParentsNft,
   loadData,
 }
