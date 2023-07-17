@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import CreateYourNft from '../components/CreateYourNft'
-import { getAnNft, getParentsNft } from '../services/blockchain'
+import { getAnNft } from '../services/blockchain'
 import { useParams } from 'react-router-dom'
 import { truncate, useGlobalState } from '../store'
 import { useNavigate } from 'react-router-dom'
+import CollectionCard from '../components/CollectionCard'
 
 const Details = () => {
   const [nft] = useGlobalState('nft')
@@ -14,22 +14,30 @@ const Details = () => {
   useEffect(() => {
     const fetchData = async () => {
       await getAnNft(id)
-      await getParentsNft(id)
       setLoaded(true)
     }
 
     fetchData()
-  }, [])
+  }, [id])
 
   return loaded ? (
-    <div className="w-full flex">
-      <div className="flex flex-col p-5 w-full items-center justify-center lg:flex-row gap-20 my-10">
+    <div className="w-full flex flex-col">
+      <div className="flex flex-col p-5 w-full items-center justify-center lg:flex-row gap-20 mt-10">
         <NFTImage nft={nft} />
         <NFTInfo nft={nft} />
       </div>
 
       {parents.length > 0 && (
-        <CreateYourNft nfts={parents} title="Inherited From" />
+        <div className="my-10 p-10 md:p-20 w-full space-y-10">
+          <h2 className="font-extrabold text-3xl md:text-5xl text-white text-center">
+            Inherited From
+          </h2>
+          <div className="flex justify-center items-center space-x-4">
+            {parents.map((nft, i) => (
+              <CollectionCard key={i} nft={nft} />
+            ))}
+          </div>
+        </div>
       )}
     </div>
   ) : (

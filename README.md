@@ -1,70 +1,76 @@
-# Getting Started with Create React App
+# How to Build a web3 NFT Cross-Breeding Dapp with React, Solidity, and CometChat
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Read the full tutorial here: [**>> How to Build a web3 NFT Cross-Breeding Dapp with React, Solidity, and CometChat**](https://daltonic.github.io)
 
-## Available Scripts
+This example shows How to Build a web3 NFT Cross-Breeding Dapp with React, Solidity, and CometChat:
 
-In the project directory, you can run:
+![Dapp Breeds Project](./screenshots/0.gif)
 
-### `npm start`
+<center><figcaption>Dapp Breeds Project</figcaption></center>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+![Dapp Breeds Chat](./screenshots/1.gif)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+<center><figcaption>Dapp Breeds Chat</figcaption></center>
 
-### `npm test`
+## Technology
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+This demo uses:
 
-### `npm run build`
+- Metamask
+- Hardhat
+- Infuria
+- ReactJs
+- Tailwind CSS
+- Solidity
+- EthersJs
+- Faucet
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Running the demo
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+To run the demo follow these steps:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Clone the project with the code below.
 
-### `npm run eject`
+   ```sh
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+   # Make sure you have the above prerequisites installed already!
+   git clone https://github.com/Daltonic/dappBreeds PROJECT_NAME
+   cd PROJECT_NAME # Navigate to the new folder.
+   yarn install # Installs all the dependencies.
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. Create a CometChat project, copy and paste your key in the spaces below.
+3. Update the `.env` file with the following details.
+   ```sh
+    REACT_APP_COMET_CHAT_APP_ID=<CometChat_APP_ID>
+    REACT_APP_COMET_CHAT_AUTH_KEY=<Comet_Chat_AUTH_KEY>
+    REACT_APP_COMET_CHAT_REGION=<CometChat_REGION>
+    REACT_APP_RPC_URL=<http://127.0.0.1:8545>
+   ```
+4. Run the app using the following commands.
+   ```sh
+   yarn install
+   yarn hardhat node
+   yarn hardhat run scripts/deploy.js
+   ```
+5. On another terminal, run `yarn start` to launch the project on the browser.
+6. Add some hardhat accounts, connect your wallet and interact with the app.
+   <br/>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+If your confuse about the installation, check out this **TUTORIAL** to see how you should run it.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Questions about running the demo? [Open an issue](https://github.com/Daltonic/dappBreeds/issues). We're here to help ✌️
+Access the [Teaching Guide Here](https://docs.google.com/document/d/13bBRyAO0bEwRt776FXbYgWm6-OBFiUu6zTeOgRbXXyI/edit?usp=sharing).
 
-## Learn More
+## Useful links
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- 🏠 [Website](https://dappmentors.org/)
+- ⚽ [Metamask](https://metamask.io/)
+- 🚀 [CometChat](https://try.cometchat.com/oj0s7hrm5v78)
+- 💡 [Hardhat](https://hardhat.org/)
+- 📈 [Infuria](https://infura.io/)
+- 🔥 [ReactJs](https://reactjs.org/)
+- 🐻 [Solidity](https://soliditylang.org/)
+- 👀 [EthersJs](https://docs.ethers.io/v5/)
+- 🎅 [Faucet](https://www.alchemy.com/faucets)
+- ✨ [Live Demo](https://dapp-cinemas.web.app/)
