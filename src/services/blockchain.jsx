@@ -209,6 +209,7 @@ const structuredMint = (mintData) =>
         image: mint.traits.image,
         environment: mint.traits.environment,
         rarity: mint.traits.rarity.toNumber(),
+        breeded: mint.traits.breeded,
       },
     }))
     .sort((a, b) => b.timestamp - a.timestamp)

@@ -77,10 +77,11 @@ const HeroActions = () => {
           <h2>Gallery</h2>
         </div>
         <p className="flex w-auto  md:w-[450px] font-normal">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book. It has survived not
+          Take it a step further and explore the exciting world of NFT breeding.
+          Combine traits, characteristics, and attributes of your existing NFTs
+          to create entirely new and extraordinary pieces. Unleash your
+          creativity and experiment with endless possibilities to breed your own
+          masterpiece.
         </p>
       </div>
 
@@ -109,7 +110,7 @@ const HeroActions = () => {
 
       <div className="flex justify-center items-center  ml-5 gap-10 text-white ">
         <div>
-          <span>Art Work</span>
+          <span>Artworks</span>
           <p className="font-bold">21.5k </p>
         </div>
         <div>
@@ -117,7 +118,7 @@ const HeroActions = () => {
           <p className="font-bold">15.6k </p>
         </div>
         <div>
-          <span>Auction</span>
+          <span>Breeds</span>
           <p className="font-bold">21.5k </p>
         </div>
       </div>

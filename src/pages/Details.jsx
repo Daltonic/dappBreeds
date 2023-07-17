@@ -1,14 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Heroimage3 from '../assets/heroimage3.jpg'
 import CreateYourNft from '../components/CreateYourNft'
-import { generateFakeNfts } from '../utils/faker'
+import { getAnNft } from '../services/blockchain'
+import { useParams } from 'react-router-dom'
+import { truncate, useGlobalState } from '../store'
 
 const Details = () => {
-  const [nfts, setNfts] = useState([])
+  const [nft] = useGlobalState('nft')
+  const { id } = useParams()
+
   useEffect(() => {
     const fetchData = async () => {
-      const nftsData = generateFakeNfts(2)
-      setNfts(nftsData)
+      await getAnNft(id)
     }
 
     fetchData()
@@ -17,41 +20,38 @@ const Details = () => {
   return (
     <div className="w-full flex flex-col">
       <div className="flex flex-col p-5 w-full items-center justify-center lg:flex-row gap-20 mt-10">
-        <NFTImage />
-        <NFTInfo />
+        <NFTImage nft={nft} />
+        <NFTInfo nft={nft} />
       </div>
 
-      <CreateYourNft nfts={nfts} title="Father & Mother" />
+      <CreateYourNft nfts={[nft, nft]} title="Inherited From" />
     </div>
   )
 }
 
-const NFTInfo = () => (
+const NFTInfo = ({ nft }) => (
   <div className="flex flex-col items-start gap-5 w-full md:w-2/6 text-white">
     <div className="flex flex-col gap-3">
-      <h4 className="text-white"> Graduate Ape</h4>
+      <h4 className="text-white">{nft.traits.name}</h4>
 
-      <span>@You</span>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas
-        numquam fugiat excepturi provident accusamus quibusdam blanditiis optio,
-        eum nemo minus asperiores sed ipsam ratione, quisquam consectetur unde
-        cumque! Non, minima.
-      </p>
+      <span>@{truncate(nft.owner, 4, 4, 11)}</span>
+      <p>{nft.traits.description}</p>
     </div>
 
     <div>
       <h4>Mint Cost</h4>
-      <span>24 ETH</span>
+      <span>{nft.mintCost} ETH</span>
     </div>
 
-    <div className='flex space-x-4'>
+    <div className="flex space-x-4">
       <div>
         <h6 className="mb-4 font-semibold md:justify-start text-blue-500">
           Weapon
         </h6>
         <ul className="flex space-x-3">
-          <li className="text-neutral-600 dark:text-neutral-200">Spear</li>
+          <li className="text-neutral-600 dark:text-neutral-200">
+            {nft.traits.weapon}
+          </li>
         </ul>
       </div>
       <div>
@@ -59,18 +59,20 @@ const NFTInfo = () => (
           Environment
         </h6>
         <ul className="flex space-x-3">
-          <li className="text-neutral-600 dark:text-neutral-200">Space</li>
+          <li className="text-neutral-600 dark:text-neutral-200">
+            {nft.traits.environment}
+          </li>
         </ul>
       </div>
     </div>
   </div>
 )
 
-const NFTImage = () => (
+const NFTImage = ({ nft }) => (
   <div className="flex">
     <li className="bg-[#202938] w-full md:w-[340px] h-[340px] flex justify-center items-center">
       <img
-        src={Heroimage3}
+        src={nft.traits.image}
         alt="DetailsImage"
         className="w-full h-72 object-contain p-4 md:p-0"
       />
