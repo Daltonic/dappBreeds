@@ -3,6 +3,7 @@ import CreateYourNft from '../components/CreateYourNft'
 import { getAnNft, getParentsNft } from '../services/blockchain'
 import { useParams } from 'react-router-dom'
 import { truncate, useGlobalState } from '../store'
+import { useNavigate } from 'react-router-dom'
 
 const Details = () => {
   const [nft] = useGlobalState('nft')
@@ -40,44 +41,58 @@ const Details = () => {
   )
 }
 
-const NFTInfo = ({ nft }) => (
-  <div className="flex flex-col items-start gap-5 w-full md:w-2/6 text-white">
-    <div className="flex flex-col gap-3">
-      <h4 className="text-white">{nft.traits.name}</h4>
+const NFTInfo = ({ nft }) => {
+  const navigate = useNavigate()
 
-      <span>@{truncate(nft.owner, 4, 4, 11)}</span>
-      <p>{nft.traits.description}</p>
-    </div>
+  return (
+    <div className="flex flex-col items-start gap-5 w-full md:w-2/6 text-white">
+      <div className="flex flex-col gap-3">
+        <h4 className="text-white">{nft.traits.name}</h4>
 
-    <div>
-      <h4>Mint Cost</h4>
-      <span>{nft.mintCost} ETH</span>
-    </div>
-
-    <div className="flex space-x-4">
-      <div>
-        <h6 className="mb-4 font-semibold md:justify-start text-blue-500">
-          Weapon
-        </h6>
-        <ul className="flex space-x-3">
-          <li className="text-neutral-600 dark:text-neutral-200">
-            {nft.traits.weapon}
-          </li>
-        </ul>
+        <span>@{truncate(nft.owner, 4, 4, 11)}</span>
+        <p>{nft.traits.description}</p>
       </div>
+
       <div>
-        <h6 className="mb-4 font-semibold md:justify-start text-blue-500">
-          Environment
-        </h6>
-        <ul className="flex space-x-3">
-          <li className="text-neutral-600 dark:text-neutral-200">
-            {nft.traits.environment}
-          </li>
-        </ul>
+        <h4>Mint Cost</h4>
+        <span>{nft.mintCost} ETH</span>
       </div>
+
+      <div className="flex space-x-4">
+        <div>
+          <h6 className="mb-4 font-semibold md:justify-start text-blue-500">
+            Weapon
+          </h6>
+          <ul className="flex space-x-3">
+            <li className="text-neutral-600 dark:text-neutral-200">
+              {nft.traits.weapon}
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h6 className="mb-4 font-semibold md:justify-start text-blue-500">
+            Environment
+          </h6>
+          <ul className="flex space-x-3">
+            <li className="text-neutral-600 dark:text-neutral-200">
+              {nft.traits.environment}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <button
+        onClick={() => navigate('/chats/' + nft.owner)}
+        className="bg-transparent hover:bg-blue-500
+          text-white font-semibold hover:text-white
+          py-2 px-4 border border-white hover:border-blue-500 
+          rounded-sm transition-all duration-300"
+      >
+        Chat with Owner
+      </button>
     </div>
-  </div>
-)
+  )
+}
 
 const NFTImage = ({ nft }) => (
   <div className="flex">

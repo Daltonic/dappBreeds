@@ -68,7 +68,7 @@ const checkAuthState = async () => {
 const getMessages = async (UID) => {
   const limit = 30
   const messagesRequest = new CometChat.MessagesRequestBuilder()
-    .setGUID(UID)
+    .setUID(UID)
     .setLimit(limit)
     .build()
 
@@ -81,7 +81,7 @@ const getMessages = async (UID) => {
 }
 
 const sendMessage = async (receiverID, messageText) => {
-  const receiverType = CometChat.RECEIVER_TYPE.GROUP
+  const receiverType = CometChat.RECEIVER_TYPE.USER
   const textMessage = new CometChat.TextMessage(
     receiverID,
     messageText,

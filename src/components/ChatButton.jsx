@@ -136,7 +136,7 @@ const ChatButton = () => {
                   onClick={() => setGlobalState('chatListModal', 'scale-100')}
                 >
                   <LiaUserFriendsSolid size={17} />
-                  <span>Chat List</span>
+                  <span>Recent Chats</span>
                 </button>
               )}
             </Menu.Item>

@@ -12,8 +12,11 @@ import ChatButton from './components/ChatButton'
 import { checkAuthState } from './services/chat'
 import ChatList from './components/ChatList'
 import Spacer from './components/Spacer'
+import Chat from './pages/Chat'
+import { useGlobalState } from './store'
 
 const App = () => {
+  const [connectedAccount] = useGlobalState('connectedAccount')
   useEffect(() => {
     const fetchData = async () => {
       await isWalletConnected()
@@ -33,10 +36,11 @@ const App = () => {
         <Route path="/nft/:id" element={<Details />} />
         <Route path="/collections" element={<Collections />} />
         <Route path="/lab" element={<Lab />} />
+        <Route path="/chats/:id" element={<Chat />} />
       </Routes>
       <Spacer spaces={7} />
       <Footer />
-      <ChatButton />
+      {connectedAccount && <ChatButton />}
       <ChatList />
 
       <ToastContainer
