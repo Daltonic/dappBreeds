@@ -181,7 +181,7 @@ const loadData = async () => {
     const contract = await getEthereumContract()
     const mintCost = await contract.mintCost()
 
-    // await getAllNfts()
+    await getAllNfts()
     await getMintedNfts()
     await getBreededNfts()
     await getMyNfts()
