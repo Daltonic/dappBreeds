@@ -37,8 +37,8 @@
       ]
     },
     "/Users/daltonic/Sites/dappBreeds/src/contracts/DappBreed.sol": {
-      "lastModificationDate": 1689350961427,
-      "contentHash": "9d09446c98b5445c6d1f1b754f2f562f",
+      "lastModificationDate": 1689573638661,
+      "contentHash": "28407ab15539e61133616a00361b24c8",
       "sourceName": "src/contracts/DappBreed.sol",
       "solcConfig": {
         "version": "0.8.11",

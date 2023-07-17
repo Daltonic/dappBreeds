@@ -6,14 +6,15 @@ import Trending from '../components/Trending'
 import { useGlobalState } from '../store'
 
 const Home = () => {
-  const [nfts] = useGlobalState('nfts')
+  const [minted] = useGlobalState('minted')
+  const [breeded] = useGlobalState('breeded')
 
   return (
     <div>
       <Hero />
       <Sponsors />
-      <Trending nfts={nfts} />
-      <CreateYourNft nfts={nfts} />
+      <Trending nfts={minted} />
+      <CreateYourNft nfts={breeded} />
     </div>
   )
 }

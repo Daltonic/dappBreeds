@@ -3,7 +3,11 @@ import { createGlobalState } from 'react-hooks-global-state'
 const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
   connectedAccount: '',
   nfts: [],
+  minted: [],
+  breeded: [],
+  collection: [],
   breeds: [],
+  nft: null,
   father: null,
   mother: null,
   mintCost: 0,

@@ -21,6 +21,7 @@ contract DappBreed is ERC721, ERC721URIStorage, Ownable, ReentrancyGuard {
         string image;
         string environment;
         uint256 rarity;
+        bool breeded;
     }
 
     struct MintStruct {
@@ -96,10 +97,13 @@ contract DappBreed is ERC721, ERC721URIStorage, Ownable, ReentrancyGuard {
         nft.name = string(
             abi.encodePacked(symbol(), " #", _tokenId.toString())
         );
-        nft.description = "Amazing AI generated artworks all for your use.";
-        nft.weapon = randomString(weapons);
-        nft.environment = randomString(environments);
-        nft.rarity = randomInt(rarities);
+        nft
+            .description = "This is a minted AI generated artworks available for your use.";
+        nft.weapon = weapons[randomNum(weapons.length, currentTime(), 0)];
+        nft.environment = environments[
+            randomNum(environments.length, currentTime(), 0)
+        ];
+        nft.rarity = randomNum(rarities.length, currentTime(), 0);
         nft.image = string(
             abi.encodePacked(baseURI, _tokenId.toString(), imageExtension)
         );
@@ -129,28 +133,14 @@ contract DappBreed is ERC721, ERC721URIStorage, Ownable, ReentrancyGuard {
 
         TraitStruct memory nft;
         nft.name = string(
-            abi.encodePacked(
-                symbol(),
-                " #",
-                _tokenId.toString(),
-                " child of #",
-                _fatherTokenId.toString()
-            )
+            abi.encodePacked(symbol(), " #", _tokenId.toString())
         );
-        nft.description = "Amazing AI generated artworks all for your use.";
-        nft.weapon = string(
-            abi.encodePacked(
-                "Inherited Father weapon of #",
-                minted[_fatherTokenId].traits.weapon
-            )
-        );
-        nft.environment = string(
-            abi.encodePacked(
-                "Inherited Mother environment of #",
-                minted[_motherTokenId].traits.environment
-            )
-        );
-        nft.rarity = randomInt(rarities);
+        nft
+            .description = "This is an inherited AI generated artworks available for your use.";
+        nft.weapon = minted[_fatherTokenId].traits.weapon;
+        nft.environment = minted[_motherTokenId].traits.environment;
+        nft.rarity = randomNum(rarities.length, block.timestamp, 0);
+        nft.breeded = true;
         nft.image = string(
             abi.encodePacked(baseURI, _tokenId.toString(), imageExtension)
         );
@@ -159,18 +149,56 @@ contract DappBreed is ERC721, ERC721URIStorage, Ownable, ReentrancyGuard {
         payTo(owner(), msg.value);
     }
 
-    function getMintedNfts() public view returns (MintStruct[] memory Minted) {
-        uint256 totalSupply = _tokenIdCounter.current();
-        Minted = new MintStruct[](totalSupply);
-
-        for (uint256 i = 0; i < totalSupply; i++) {
+    function getAllNfts() public view returns (MintStruct[] memory Minted) {
+        Minted = new MintStruct[](_tokenIdCounter.current());
+        for (uint256 i = 0; i < _tokenIdCounter.current(); i++) {
             Minted[i] = minted[i + 1];
         }
     }
 
-    function getMintedNft(
-        uint256 _tokenId
-    ) public view returns (MintStruct memory) {
+    function getMintedNfts() public view returns (MintStruct[] memory Minted) {
+        uint256 available;
+        for (uint256 i = 0; i < _tokenIdCounter.current(); i++) {
+            if (!minted[i + 1].traits.breeded) available++;
+        }
+
+        Minted = new MintStruct[](available);
+
+        uint256 index;
+        for (uint256 i = 0; i < _tokenIdCounter.current(); i++) {
+            if (!minted[i + 1].traits.breeded) Minted[index++] = minted[i + 1];
+        }
+    }
+
+    function getBreededNfts() public view returns (MintStruct[] memory Minted) {
+        uint256 available;
+        for (uint256 i = 0; i < _tokenIdCounter.current(); i++) {
+            if (minted[i + 1].traits.breeded) available++;
+        }
+
+        Minted = new MintStruct[](available);
+
+        uint256 index;
+        for (uint256 i = 0; i < _tokenIdCounter.current(); i++) {
+            if (minted[i + 1].traits.breeded) Minted[index++] = minted[i + 1];
+        }
+    }
+
+    function getMyNfts() public view returns (MintStruct[] memory Minted) {
+        uint256 available;
+        for (uint256 i = 0; i < _tokenIdCounter.current(); i++) {
+            if (minted[i + 1].owner == msg.sender) available++;
+        }
+
+        Minted = new MintStruct[](available);
+
+        uint256 index;
+        for (uint256 i = 0; i < _tokenIdCounter.current(); i++) {
+            if (minted[i + 1].owner == msg.sender) Minted[index++] = minted[i + 1];
+        }
+    }
+
+    function getNft(uint256 _tokenId) public view returns (MintStruct memory) {
         return minted[_tokenId];
     }
 
@@ -274,20 +302,17 @@ contract DappBreed is ERC721, ERC721URIStorage, Ownable, ReentrancyGuard {
             );
     }
 
-    function randomString(
-        string[] memory array
-    ) internal view returns (string memory) {
-        uint256 randomNumber = uint256(
-            keccak256(abi.encodePacked(block.timestamp, msg.sender))
-        ) % array.length;
-        return array[randomNumber];
-    }
-
-    function randomInt(uint256[] memory array) internal view returns (uint256) {
-        uint256 randomNumber = uint256(
-            keccak256(abi.encodePacked(block.timestamp, msg.sender))
-        ) % array.length;
-        return array[randomNumber] + 1;
+    function randomNum(
+        uint256 _mod,
+        uint256 _seed,
+        uint256 _salt
+    ) internal view returns (uint256) {
+        uint256 num = uint256(
+            keccak256(
+                abi.encodePacked(block.timestamp, msg.sender, _seed, _salt)
+            )
+        ) % _mod;
+        return num;
     }
 
     function currentTime() internal view returns (uint256) {
