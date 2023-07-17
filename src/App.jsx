@@ -9,12 +9,16 @@ import { isWalletConnected, loadData } from './services/blockchain'
 import { useEffect } from 'react'
 import { ToastContainer } from 'react-toastify'
 import ChatButton from './components/ChatButton'
+import { checkAuthState } from './services/chat'
+import ChatList from './components/ChatList'
+import Spacer from './components/Spacer'
 
 const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       await isWalletConnected()
       await loadData()
+      await checkAuthState()
     }
 
     fetchData()
@@ -23,15 +27,17 @@ const App = () => {
   return (
     <div className="min-h-screen relative">
       <Navbar />
-      <div className="h-10" />
+      <Spacer spaces={1} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/nft/:id" element={<Details />} />
         <Route path="/collections" element={<Collections />} />
         <Route path="/lab" element={<Lab />} />
       </Routes>
+      <Spacer spaces={7} />
       <Footer />
       <ChatButton />
+      <ChatList />
 
       <ToastContainer
         position="bottom-center"

@@ -21,8 +21,8 @@ const Details = () => {
   }, [])
 
   return loaded ? (
-    <div className="w-full flex flex-col">
-      <div className="flex flex-col p-5 w-full items-center justify-center lg:flex-row gap-20 mt-10">
+    <div className="w-full flex">
+      <div className="flex flex-col p-5 w-full items-center justify-center lg:flex-row gap-20 my-10">
         <NFTImage nft={nft} />
         <NFTInfo nft={nft} />
       </div>

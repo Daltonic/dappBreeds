@@ -2,6 +2,7 @@ import { createGlobalState } from 'react-hooks-global-state'
 
 const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
   connectedAccount: '',
+  chatListModal: 'scale-0',
   nfts: [],
   minted: [],
   breeded: [],
@@ -9,6 +10,7 @@ const { setGlobalState, useGlobalState, getGlobalState } = createGlobalState({
   breeds: [],
   parents: [],
   nft: null,
+  currentUser: null,
   mintCost: 0,
 })
 

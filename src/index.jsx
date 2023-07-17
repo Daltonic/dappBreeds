@@ -4,11 +4,16 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import 'react-toastify/dist/ReactToastify.css'
 import App from './App'
+import { initCometChat } from './services/chat'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
-root.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
-)
+initCometChat().then(() => {
+  root.render(
+    <React.StrictMode>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </React.StrictMode>
+  )
+})
