@@ -13,6 +13,7 @@ const toWei = (num) => ethers.utils.parseEther(num.toString())
 const fromWei = (num) => ethers.utils.formatEther(num)
 
 const getEthereumContract = async () => {
+  const accounts = await ethereum.request({ method: 'eth_accounts' })
   const provider = new ethers.providers.Web3Provider(ethereum)
   const signer = provider.getSigner(accounts[0])
 

@@ -18,9 +18,9 @@ import { useGlobalState } from './store'
 const App = () => {
   const [connectedAccount] = useGlobalState('connectedAccount')
   useEffect(() => {
+    isWalletConnected()
     const fetchData = async () => {
       await loadData()
-      await isWalletConnected()
       await checkAuthState()
     }
 
