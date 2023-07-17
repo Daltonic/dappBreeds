@@ -10,8 +10,8 @@ const Footer = () => {
               DappBreed
             </h6>
             <p>
-              Here you can use rows and columns to organize your footer content.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              Unleash your creativity and experiment with endless possibilities
+              to breed your own masterpiece.
             </p>
           </div>
 

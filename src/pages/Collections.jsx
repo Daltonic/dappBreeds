@@ -6,7 +6,7 @@ const Collections = () => {
   const [collection] = useGlobalState('collection')
 
   return (
-    <div className="mt-4 mb-10 p-10 md:p-20  flex flex-col w-full ">
+    <div className="mt-4 mb-10 p-10 md:p-20 flex flex-col w-full ">
       <CreateYourNft collection={collection} title="Your Collection" />
     </div>
   )

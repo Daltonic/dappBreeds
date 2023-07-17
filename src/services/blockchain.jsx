@@ -2,6 +2,7 @@ import { getGlobalState, setGlobalState } from '../store'
 import abi from '../abis/src/contracts/DappBreed.sol/DappBreed.json'
 import address from '../abis/contractAddress.json'
 import { ethers } from 'ethers'
+import { logOutWithCometChat } from './chat'
 
 const { ethereum } = window
 const ContractAddress = address.address
@@ -46,6 +47,7 @@ const isWalletConnected = async () => {
     window.ethereum.on('accountsChanged', async () => {
       setGlobalState('connectedAccount', accounts[0])
       await getMyNfts()
+      await logOutWithCometChat()
       await isWalletConnected()
     })
 
