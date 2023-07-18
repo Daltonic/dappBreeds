@@ -158,7 +158,7 @@ const getBreededNfts = async () => {
 const getMyNfts = async () => {
   try {
     if (!ethereum) return console.log('please install metamask')
-    const contract = await getContract()
+    const contract = await getEthereumContract()
     const nfts = await contract.getMyNfts()
     setGlobalState('collection', structuredMint(nfts))
   } catch (err) {

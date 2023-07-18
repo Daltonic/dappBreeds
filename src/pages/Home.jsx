@@ -1,5 +1,5 @@
 import React from 'react'
-import CreateYourNft from '../components/CreateYourNft'
+import Collection from '../components/Collection'
 import Hero from '../components/Hero'
 import Sponsors from '../components/Sponsors'
 import Trending from '../components/Trending'
@@ -14,7 +14,7 @@ const Home = () => {
       <Hero />
       <Sponsors />
       <Trending nfts={minted} />
-      {breeded.length > 0 && <CreateYourNft collection={breeded} />}
+      {breeded.length > 0 && <Collection collection={breeded} />}
     </div>
   )
 }

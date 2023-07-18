@@ -28,7 +28,7 @@ const Details = () => {
       </div>
 
       {parents.length > 0 && (
-        <div className="my-10 p-10 md:p-20 w-full space-y-10">
+        <div className="mb-10 p-10 md:p-20 w-full space-y-10">
           <h2 className="font-extrabold text-3xl md:text-5xl text-white text-center">
             Inherited From
           </h2>
