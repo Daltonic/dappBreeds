@@ -4,9 +4,13 @@ Read the full tutorial here: [**>> How to Build a web3 NFT Cross-Breeding Dapp w
 
 This example shows How to Build a web3 NFT Cross-Breeding Dapp with React, Solidity, and CometChat:
 
-![Dapp Breeds Project](./screenshots/0.gif)
+![Dapp Breeds Project](./screenshots/0.png)
 
 <center><figcaption>Dapp Breeds Project</figcaption></center>
+
+![Breeded NFT](./screenshots/2.png)
+
+<center><figcaption>Breeded NFT</figcaption></center>
 
 ![Dapp Breeds Chat](./screenshots/1.gif)
 
@@ -73,4 +77,4 @@ Access the [Teaching Guide Here](https://docs.google.com/document/d/13bBRyAO0bEw
 - 🐻 [Solidity](https://soliditylang.org/)
 - 👀 [EthersJs](https://docs.ethers.io/v5/)
 - 🎅 [Faucet](https://www.alchemy.com/faucets)
-- ✨ [Live Demo](https://dapp-cinemas.web.app/)
+- ✨ [Live Demo](https://dapp-breeds.vercel.app/)

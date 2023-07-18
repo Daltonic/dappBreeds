@@ -70,7 +70,7 @@ const Conversation = ({ text, owner, time }) => {
 
         <div>
           <h3 className="text-lg font-bold">{truncate(owner, 4, 4, 11)}</h3>
-          <p className="text-gray-500">{text}</p>
+          <p className="text-gray-500">{truncate(text, 37, 0, 40)}</p>
         </div>
       </div>
       <p className="text-sm text-gray-500 ml-auto">
